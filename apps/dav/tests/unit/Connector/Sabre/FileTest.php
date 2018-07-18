@@ -299,10 +299,8 @@ class FileTest extends TestCase {
 	 * value in the listener. Once it is modified check the exception returned
 	 * from main function. The reason for exception is put from Sabre/File.php
 	 * throws exception
-	 *
-	 * @expectedException \Sabre\DAV\Exception
 	 */
-public function testPutWithModifyRun() {
+	public function testPutWithModifyRun() {
 		$calledUploadAllowed = [];
 		\OC::$server->getEventDispatcher()->addListener('file.beforeUpdate', function (GenericEvent $event) use (&$calledUploadAllowed) {
 			$calledUploadAllowed[] = 'file.beforeUpdate';
