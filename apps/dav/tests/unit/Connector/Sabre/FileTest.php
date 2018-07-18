@@ -313,6 +313,8 @@ class FileTest extends TestCase {
 			->setMethods(['fopen'])
 			->setConstructorArgs([['datadir' => \OC::$server->getTempManager()->getTemporaryFolder()]])
 			->getMock();
+		$storage->method('fopen')
+			->willReturn($this->getStream('qwertz'));
 		Filesystem::mount($storage, [], $this->user . '/');
 		/** @var View | \PHPUnit_Framework_MockObject_MockObject $view */
 		$view = $this->getMockBuilder(View::class)
@@ -338,7 +340,7 @@ class FileTest extends TestCase {
 
 		$file = new File($view, $info);
 
-		$file->put('test data');
+		$file->put($this->getStream('test data'));
 
 		$this->assertInstanceOf(GenericEvent::class, $calledUploadAllowed[1]);
 		$this->assertArrayHasKey('run', $calledUploadAllowed[1]);
